@@ -1,0 +1,34 @@
+/* animação de fade-in e fade-out */
+
+.fade-out {
+    -webkit-animation: fade-out 0.3s linear forwards;
+    animation: fade-out 0.3s linear forwards;
+    opacity: 1;
+  }
+  
+  @keyframes fade-out {
+    50% {
+        opacity: 0.5;
+    }
+  
+    100% {
+        opacity: 0;
+    }
+  }
+  
+  .fade-in {
+    -webkit-animation: fade-in 0.3s linear forwards;
+    animation: fade-in 0.3s linear forwards;
+    opacity: 0;
+  }
+  
+  @keyframes fade-in {
+    50% {
+        opacity: 0.5;
+    }
+  
+    100% {
+        opacity: 1;
+    }
+  }
+  

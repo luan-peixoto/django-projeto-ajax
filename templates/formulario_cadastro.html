@@ -1,0 +1,109 @@
+{% load static %}
+
+<form id="form_cadastro" action="" method="POST" novalidate>
+    <div class="row mb-xl-3">
+        <div class="col-xl-6">
+            <div class="row">
+            <label for="id_categoria" class="col-xl-3 font-weight-bold">Categoria</label>
+            <div class="col-xl-9">
+                {{ form.categoria }}
+
+                <div class="produto_errors">
+                    {% if form.categoria.errors %}
+                        <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                        <!-- as mensagens de erro serão exibidas -->
+                        {% for error in form.categoria.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-xl-3">
+        <div class="col-xl-6">
+            <div class="row">
+            <label for="id_nome" class="col-xl-3 font-weight-bold">Nome</label>
+            <div class="col-xl-9">
+                {{ form.nome }}
+                
+                <div class="produto_errors">
+                    {% if form.nome.errors %}
+                        <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                        <!-- as mensagens de erro serão exibidas -->
+                        {% for error in form.nome.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-xl-6">
+        <div class="row">
+            <label for="id_qtd_estoque" class="col-xl-3 font-weight-bold">Quantidade</label>
+            <div class="col-xl-9">
+                {{ form.qtd_estoque }}
+
+                <div class="produto_errors">
+                    {% if form.qtd_estoque.errors %}
+                        <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                        <!-- as mensagens de erro serão exibidas -->
+                        {% for error in form.qtd_estoque.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="row mb-xl-3">
+        <div class="col-xl-6">
+            <div class="row">
+            <label for="id_preco" class="col-xl-3 font-weight-bold">Preço</label>
+            <div class="col-xl-9">
+                {{ form.preco }}
+                
+                <div class="produto_errors">
+                    {% if form.preco.errors %}
+                        <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                        <!-- as mensagens de erro serão exibidas -->
+                        {% for error in form.preco.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+            </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="row mb-5">
+        <div class="col-xl-6">
+            <div class="row">
+            <div class="col-xl-10 offset-xl-2">
+                <!-- o token fica aqui -->
+                {% csrf_token %}
+                <button id="botao_cadastrar" type="submit" class="btn btn-primary">
+                    Cadastrar
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block estilo %}
+
+{% endblock %}
+
+{% block titulo %} 
+    titulo de index.html
+{% endblock %}
+
+{% block corpo %} 
+
+    <div class="container mt-5">
+        <div class='mb-3'>
+            <h5>Cadastro de Produtos</h5>
+            <hr class='mt-0'>
+         </div>
+         
+         <div id = "cadastro_de_produtos">
+            <form id="form_cadastro" action="" method="POST" novalidate>
+               <div class="row mb-xl-3">
+                  <div class="col-xl-6">
+                     <div class="row">
+                        <label for="id_categoria" class="col-xl-3 font-weight-bold">Categoria</label>
+                        <div class="col-xl-9">
+                           {{ form.categoria }}
+                           {% if form.categoria.errors %}
+                              <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                                 <!-- as mensagens de erro serão exibidas -->
+                                 {% for error in form.categoria.errors %}
+                                    <small>{{ error }}</small>
+                                 {% endfor %}
+                              </div>
+                           {% endif %}
+                        </div>
+                     </div>
+                  </div>
+                </div>
+               
+               <div class="row mb-xl-3">
+                  <div class="col-xl-6">
+                     <div class="row">
+                        <label for="id_nome" class="col-xl-3 font-weight-bold">Nome</label>
+                        <div class="col-xl-9">
+                           {{ form.nome }}
+                           {% if form.nome.errors %}
+                              <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                                 <!-- as mensagens de erro serão exibidas -->
+                                 {% for error in form.nome.errors %}
+                                    <small>{{ error }}</small>
+                                 {% endfor %}
+                              </div>
+                           {% endif %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         
+               <div class="row mb-3">
+                   <div class="col-xl-6">
+                    <div class="row">
+                       <label for="id_qtd_estoque" class="col-xl-3 font-weight-bold">Quantidade</label>
+                       <div class="col-xl-9">
+                           {{ form.qtd_estoque }}
+                           {% if form.qtd_estoque.errors %}
+                              <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                                 <!-- as mensagens de erro serão exibidas -->
+                                 {% for error in form.qtd_estoque.errors %}
+                                    <small>{{ error }}</small>
+                                 {% endfor %}
+                              </div>
+                           {% endif %}
+                       </div>
+                    </div>
+                 </div>
+                </div>
+         
+               <div class="row mb-xl-3">
+                  <div class="col-xl-6">
+                     <div class="row">
+                        <label for="id_preco" class="col-xl-3 font-weight-bold">Preço</label>
+                        <div class="col-xl-9">
+                           {{ form.preco }}
+                           {% if form.preco.errors %}
+                              <div class="alert alert-danger mt-2 mb-0 pt-1 pb-1" role="alert">
+                                 <!-- as mensagens de erro serão exibidas -->
+                                 {% for error in form.preco.errors %}
+                                    <small>{{ error }}</small>
+                                 {% endfor %}
+                              </div>
+                           {% endif %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         
+               
+         
+               <div class="row mb-5">
+                  <div class="col-xl-6">
+                     <div class="row">
+                        <div class="col-xl-10 offset-xl-2">
+                           <!-- o token fica aqui -->
+                           {% csrf_token %}
+                           <button id="botao_cadastrar" type="submit" class="btn btn-primary">
+                              Cadastrar
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         
+            </form>
+         </div>
+         
+    </div>
+
+    <div class="container">
+        
+         <h5 class="mb-3">Lista de Produtos</h5>
+         <table class='table table-striped table-sm table-bordered mb-4'>
+            <thead>
+               <tr>
+                  <th class='text-center'>Categoria</th>
+                  <th class='text-center'>Nome</th>
+                  <th class="text-center">Quantidade</th>
+                  <th class="text-center">Preço</th>
+                  <th class="text-center">Operação</th>
+               </tr>
+            </thead>
+            <tbody id="lista_produtos">
+               
+               <!-- cada elemento da tabela de produtos possui seu próprio id para -->
+               <!-- realizar a remoção caso necessário -->
+               {% for produto, form_qtd_produto in produtos %}
+                  <tr id="produto_{{ produto.id }}">
+                     <td width="10%" class="text-center align-middle">
+                        {{ produto.categoria }}
+                     </td>
+                     <td width="35%" class="align-middle">
+                        {{ produto.nome }}
+                     </td>
+                     <td width="10%" class="text-right align-middle pr-3">
+                        <form class="mx-auto" style="width: 60px;" action="" method="POST" novalidate>
+                           {% csrf_token %}
+                           {{ form_qtd_produto.produto_id }}
+                           <!-- <input type="hidden" name="produto_id" required="" id="id_produto_id" value="{{ produto.id }}"> -->
+                           {{ form_qtd_produto.quantidade }}
+                        </form>
+                     </td>
+                     <td width="15%" class="text-right align-middle pr-3">
+                        R$ {{ produto.preco }}
+                     </td>
+                     <td width="15%" class="text-center align-middle pr-3">
+                        <form action="" method="POST">
+                           {% csrf_token %}
+                           {{ form_qtd_produto.produto_id }}
+                           <!-- <input type="hidden" name="produto_id" required="" id="id_produto_id" value="{{ produto.id }}"> -->
+                           <!-- da mesma forma que cada foorm tem seu próprio value contendo 'id' para saber -->
+                           <!-- qual botão foi clicado -->
+                           <button type="button" class="btn btn-sm btn-danger btn-remover">
+                              Remover
+                           </button>
+                       </form>
+                     </td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+
+            <tfoot>
+               <tr>
+                 <th class="text-center">Total:</th>
+                 <td></td>
+                 <td></td>
+                 <!-- essa linha da tabela tem o id do total de produtos para atualizar via ajax -->
+                 <td id="produtos_total" class="text-right align-middle pr-3">R$ {{ total }}</td>
+               </tr>
+             </tfoot>
+         </table>
+         
+    </div>
+{% endblock %}
+
+{% block domready %}
+
+   <!-- ao enviar o #form_cadastro cria uma requisição ajax -->
+   $(document).on('submit','#form_cadastro', function(event) {
+      event.preventDefault();
+
+      $.ajax({
+         type: 'POST',
+         url: '/cadastrar_produto/',
+         data: {
+            categoria: $('#id_categoria').val(),
+            nome: $('#id_nome').val(),
+            qtd_estoque: $('#id_qtd_estoque').val(),
+            preco: $('#id_preco').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            dataType: "json"
+         },
+         success: function(response) {
+            if (response.id) { // caso o produto tenha sido adicionado:
+
+               $("#cadastro_de_produtos").html(response.pagina);
+               // limpa os campos do formulário de cadastro
+
+               var string_preco = String(response.preco)
+               if (string_preco.includes(".")) {
+                  string_preco = string_preco.replace(".", ",")
+               }
+               else {
+                  string_preco = string_preco + ",00"
+               }
+               // adiciona vírgula no preço
+
+
+               var tr = `<tr id="produto_${response.id}">
+                  <td width="10%" class="text-center align-middle">
+                     ${response.categoria}
+                  </td>
+                  <td width="35%" class="align-middle">
+                     ${response.nome}
+                  </td>
+                  <td width="10%" class="text-right align-middle pr-3">
+                     <form class="mx-auto" style="width: 60px;" action="" method="POST" novalidate>
+                        {% csrf_token %}
+                        ${response.form_id_input}
+                        ${response.form_qtd_input}
+                     </form>
+                  </td>
+                  <td width="15%" class="text-right align-middle pr-3">
+                     R$ ${string_preco}
+                  </td>
+                  <td width="15%" class="text-center align-middle pr-3">
+                     <form action="" method="POST">
+                        {% csrf_token %}
+                        ${response.form_id_input}
+                        <!-- <input type="hidden" name="produto_id" value="{id_do_produto}" id="id_produto_id"> -->
+                        <button type="button" class="btn btn-sm btn-danger btn-remover">
+                           Remover
+                        </button>
+                     </form>
+                  </td>
+               </tr>`
+
+               $(tr).hide().appendTo("#lista_produtos").fadeIn(600);
+               // cria um tr com o novo produto e exibe ele na lista
+               $('#produtos_total').text('R$ ' + response.total);
+               // atualiza o preço total dos produtos
+
+            }
+            else { // caso o produto não tenha sido adicionado:
+               $("#cadastro_de_produtos").html(response);
+               // coloca o formulário com errors rendezirado na div #cadastro_de_produtos
+            }
+         }
+      });
+   })
+
+
+   <!-- ao clicar em qualquer botão dentro de #lista_produtos que possui a classe btn-remover -->
+   <!-- cria uma requisição ajax baseado no #id do botão -->
+   $("#lista_produtos").on("click", ".btn-remover", function(event) {
+      event.preventDefault();
+
+      let form = $(this).parent();
+
+      let form_data = form.serializeArray();
+      // recupera os dados do botão clicado, no caso cada um dos inputs
+
+      let tr = form.parent().parent();
+      // recupera a tabela a ser removida
+
+      // envia uma requisição post para /remover_produto/
+      $.ajax({
+         type: 'POST',
+         url: '/remover_produto/',
+         data: {
+            id: form_data[1]['value'],
+            // pega o input[1] que é o id, e recupera o valor #id
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            dataType: "json"
+         },
+         success: function(response) {
+            if (response != "") {
+               // caso seja sucedida
+
+               tr.fadeOut(600);
+               // adiciona fade-out na tabela que foi recuperada e deve ser removida 
+               $('#produtos_total').fadeOut(600);
+               // adiciona fade-out no preço total
+               setTimeout(function() { // aguarda o tempo do fade-out
+                  tr.remove();
+                  // remove a tabela do documento
+                  $('#produtos_total').text('R$ ' + response.total).fadeIn(100);
+                  // atualiza o preço total e dá fade-in nele
+               }, 600);
+               
+            }
+         }
+      });
+   });
+
+   <!-- ao tirar o foco de qualquer uma das caixas de input qtd que contenham a class 'form-quantidade' -->
+   $("#lista_produtos").on("blur", ".form-quantidade", function() {
+      event.preventDefault();
+
+      let input_qtd = $(this)
+      // recupera o input da caixa de qtd que foi clicado
+
+      let qtd = input_qtd.val();
+      // recupera o valor dentro da caixa
+
+      if (qtd < 1 || qtd > 99) {
+         input_qtd.focus();
+         return;
+      };
+      // caso o valor seja inválido, retorna
+
+      let form = input_qtd.parent();
+      // recupera o elemento form do input clicado
+
+      let form_data = form.serializeArray();
+      // recupera os dados do input clicado, no caso cada um dos inputs
+
+      let tr = form.parent().parent();
+      // recupera a tabela a ser alterada
+
+      // envia uma requisição post para /alterar_produto/
+      $.ajax({
+         type: 'POST',
+         url: '/alterar_produto/',
+         data: {
+            id: form_data[1]['value'],
+            quantidade: form_data[2]['value'],
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            dataType: "json"
+         },
+         success: function(response) {
+
+            if (response != "") {
+               // caso seja sucedida
+
+               $('#produtos_total').fadeOut(600);
+               // adiciona fade-out no preço total
+               setTimeout(function() { // aguarda o tempo do fade-out
+                  $('#produtos_total').text('R$ ' + response.total).fadeIn(100);
+                  // atualiza o preço total e dá fade-in nele
+               }, 600);
+               
+            }
+         }
+      });
+   });
+   
+{% endblock %}
