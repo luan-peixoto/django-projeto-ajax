@@ -22,8 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-kxwn7zpeerk-(h4f3uv3xme2ow4nik+c&!9p)0)$=r17i3055)'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
+
+# TORNAR DEBUG = TRUE CASO PRECISE RODAR O APLICATIVO LOCALMENTE, DEPOIS MUDAR PRA FALSE
+# E DAR COMMIT
 DEBUG = False
+# SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = ['127.0.0.1', 'django-ajax-project.herokuapp.com']
 
@@ -127,11 +131,13 @@ DATE_INPUT_FORMATS = ['%d/%m/%Y']
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+if not DEBUG:
 
-MEDIA_URL = '/images/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+    MEDIA_URL = '/images/'
+
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
